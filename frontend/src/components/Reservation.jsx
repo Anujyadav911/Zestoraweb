@@ -27,7 +27,7 @@ const Reservation = () => {
     
     try {
       const { data } = await axios.post(
-        "http://localhost:5000/api/v1/reservation/send",
+        "https://zestoraweb.onrender.com/api/v1/reservation/send",
         { 
           firstName, 
           lastName, 
