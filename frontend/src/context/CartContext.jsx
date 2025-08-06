@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import React, { createContext, useContext, useReducer, useEffect } from 'react';
 
 const CartContext = createContext();
 
@@ -21,13 +21,11 @@ const cartReducer = (state, action) => {
           items: [...state.items, { ...action.payload, quantity: 1 }],
         };
       }
-    
     case 'REMOVE_FROM_CART':
       return {
         ...state,
         items: state.items.filter(item => item.id !== action.payload),
       };
-    
     case 'UPDATE_QUANTITY':
       return {
         ...state,
@@ -37,20 +35,31 @@ const cartReducer = (state, action) => {
             : item
         ),
       };
-    
     case 'CLEAR_CART':
       return {
         ...state,
         items: [],
       };
-    
     default:
       return state;
   }
 };
 
 export const CartProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(cartReducer, { items: [] });
+  // Load from localStorage on first render
+  const [state, dispatch] = useReducer(
+    cartReducer,
+    { items: [] },
+    (initial) => {
+      const saved = localStorage.getItem('cartItems');
+      return saved ? { items: JSON.parse(saved) } : initial;
+    }
+  );
+
+  // Save to localStorage whenever items change
+  useEffect(() => {
+    localStorage.setItem('cartItems', JSON.stringify(state.items));
+  }, [state.items]);
 
   const addToCart = (item) => {
     dispatch({ type: 'ADD_TO_CART', payload: item });
