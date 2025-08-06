@@ -7,32 +7,26 @@ import reservationRouter from "./routes/reservationRoute.js";
 
 const app = express();
 
-// Load environment variables
 dotenv.config({ path: "./config/config.env" });
 
-// ✅ Corrected CORS Setup
 app.use(
   cors({
-    origin: process.env.Frontend_URL, // should be "http://localhost:5173"
+    origin: process.env.Frontend_URL,
     methods: ["POST"],
-    credentials: true, // ✅ lowercase and required
+    credentials: true,
   })
 );
 
-// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Routes
 app.use("/api/v1/reservation", reservationRouter);
 
 app.get("/", (req, res) => {
   return res.status(200).json({ message: "Welcome to Zestora API" });
 });
-// DB connection
 dbConnection();
 
-// Global error middleware
 app.use(errorMiddleware);
 
 export default app;

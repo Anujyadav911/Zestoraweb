@@ -2,9 +2,9 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { CartProvider } from "./context/CartContext";
-import Home from "./pages/Home";
-import NotFound from "./pages/NotFound";
-import Success from "./pages/Success";
+import Home from "./Pages/Home";
+import NotFound from "./Pages/NotFound";
+import Success from "./Pages/Success";
 
 const App = () => {
   return (

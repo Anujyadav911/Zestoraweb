@@ -25,13 +25,13 @@ const Cart = ({ isOpen, onClose }) => {
 
     setIsCheckoutLoading(true);
     
-    // Close cart and redirect to reservation form
+
     setTimeout(() => {
       toast.success('Redirecting to order form...');
       onClose();
       setIsCheckoutLoading(false);
       
-      // Scroll to reservation section
+
       const reservationSection = document.getElementById('reservation');
       if (reservationSection) {
         reservationSection.scrollIntoView({ 

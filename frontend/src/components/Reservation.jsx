@@ -54,7 +54,7 @@ const Reservation = () => {
       setTime("");
       setDate("");
       setAddress("");
-      clearCart(); // Clear cart after successful order
+      clearCart();
       navigate("/success");
     } catch (error) {
       toast.error(error.response.data.message);
@@ -72,7 +72,7 @@ const Reservation = () => {
             <h1>MAKE A ORDER</h1>
             <p>For Further Questions, Please Call</p>
             
-            {/* Cart Items Summary */}
+
             {items.length > 0 && (
               <div className="cart-summary">
                 <h3>Order Summary ({items.length} items)</h3>

@@ -30,7 +30,7 @@ const Navbar = ({ onCartOpen }) => {
     <nav>
       <div className="logo">zestora</div>
 
-      {/* Backdrop overlay for mobile menu */}
+
       <div 
         className={`menu-backdrop ${show ? 'show' : ''}`} 
         onClick={closeMenu}

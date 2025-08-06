@@ -3,7 +3,7 @@ const HeroSection = () => {
   return (
     <section className="heroSection" id="heroSection">
       <div className="container">
-        {/* First Banner */}
+
         <div className="banner">
           <div className="largeBox">
             <h1 className="title">Delicious</h1>
@@ -23,7 +23,7 @@ const HeroSection = () => {
           </div>
         </div>
 
-        {/* Second Banner */}
+
         <div className="banner">
           <div className="imageBox">
             <img src="/hero2.png" alt="Tasty Dish" />
