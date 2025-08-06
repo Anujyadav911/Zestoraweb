@@ -1,0 +1,160 @@
+import React from "react";
+import { HiOutlineArrowNarrowRight } from "react-icons/hi";
+import axios from "axios";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../context/CartContext";
+
+const Reservation = () => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
+  const [phone, setPhone] = useState();
+  const [address, setAddress] = useState("");
+  const navigate = useNavigate();
+  const { items, getTotalPrice, clearCart } = useCart();
+
+  const handleReservation = async (e) => {
+    e.preventDefault();
+    
+    if (items.length === 0) {
+      toast.error('Please add items to cart before placing order');
+      return;
+    }
+    
+    try {
+      const { data } = await axios.post(
+        "http://localhost:5000/api/v1/reservation/send",
+        { 
+          firstName, 
+          lastName, 
+          email, 
+          phone, 
+          date, 
+          time,
+          address,
+          orderItems: items,
+          totalAmount: getTotalPrice()
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      toast.success(data.message);
+      setFirstName("");
+      setLastName("");
+      setPhone("");
+      setEmail("");
+      setTime("");
+      setDate("");
+      setAddress("");
+      clearCart(); // Clear cart after successful order
+      navigate("/success");
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+
+  return (
+    <section className="reservation" id="reservation">
+      <div className="container">
+        <div className="banner">
+          <img src="/reservation.png" alt="res" />
+        </div>
+        <div className="banner">
+          <div className="reservation_form_box">
+            <h1>MAKE A ORDER</h1>
+            <p>For Further Questions, Please Call</p>
+            
+            {/* Cart Items Summary */}
+            {items.length > 0 && (
+              <div className="cart-summary">
+                <h3>Order Summary ({items.length} items)</h3>
+                <div className="cart-items-list">
+                  {items.map((item) => (
+                    <div key={item.id} className="cart-item-summary">
+                      <span>{item.title}</span>
+                      <span>Qty: {item.quantity}</span>
+                      <span>${(item.price * item.quantity).toFixed(2)}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="cart-total">
+                  <strong>Total: ${getTotalPrice().toFixed(2)}</strong>
+                </div>
+              </div>
+            )}
+            <form>
+              <div>
+                <input
+                  type="text"
+                  placeholder="First Name"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                />
+                <input
+                  type="text"
+                  placeholder="Last Name"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                />
+              </div>
+              <div>
+                <input
+                  type="date"
+                  placeholder="Date"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                />
+                <input
+                  type="time"
+                  placeholder="Time "
+                  value={time}
+                  onChange={(e) => setTime(e.target.value)}
+                />
+              </div>
+              <div>
+                <input
+                  type="email"
+                  placeholder="Email"
+                  className="email_tag"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <input
+                  type="number"
+                  placeholder="Phone"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
+              </div>
+              <div>
+                <input
+                  type="text"
+                  placeholder="Delivery Address"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  className="address-input"
+                />
+              </div>
+              <button type="submit" onClick={handleReservation}>
+                ORDER NOW{" "}
+                <span>
+                  <HiOutlineArrowNarrowRight />
+                </span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Reservation;
