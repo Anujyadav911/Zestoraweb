@@ -18,7 +18,8 @@ app.use(
       "https://zestoraweb-z8wn.vercel.app",
       "https://zestoraweb.vercel.app",
       "https://zestoraweb-rvxf.vercel.app",
-      "https://zestoraweb-1.vercel.app"
+      "https://zestoraweb-1.vercel.app",
+      "https://zestoraweb-2.onrender.com"
     ],
     methods: ["POST", "GET"],
     credentials: true,
