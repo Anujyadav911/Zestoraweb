@@ -11,8 +11,8 @@ dotenv.config({ path: "./config/config.env" });
 
 app.use(
   cors({
-    origin: process.env.Frontend_URL,
-    methods: ["POST"],
+    origin: [process.env.FRONTEND_URL, "https://zestora.vercel.app", "https://zestora-git-main-anujyadav911.vercel.app"],
+    methods: ["POST", "GET"],
     credentials: true,
   })
 );
