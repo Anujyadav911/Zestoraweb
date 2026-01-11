@@ -34,7 +34,10 @@ app.use("/api/v1/reservation", reservationRouter);
 app.get("/", (req, res) => {
   return res.status(200).json({ message: "Welcome to Zestora API" });
 });
-dbConnection();
+
+if (process.env.NODE_ENV !== "test") {
+  dbConnection();
+}
 
 app.use(errorMiddleware);
 
