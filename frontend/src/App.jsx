@@ -5,6 +5,7 @@ import { CartProvider } from "./context/CartContext";
 import Home from "./Pages/Home";
 import NotFound from "./Pages/NotFound";
 import Success from "./Pages/Success";
+import Payment from "./Pages/Payment";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/success" element={<Success />} />
+          <Route path="/payment" element={<Payment />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Toaster />

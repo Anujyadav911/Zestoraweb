@@ -7,12 +7,13 @@ const Success = () => {
 
   useEffect(() => {
     const timeoutId = setInterval(() => {
-      setCountdown((preCount) => {
-        if (preCount === 1) {
+      setCountdown((prevCount) => {
+        if (prevCount <= 1) {
           clearInterval(timeoutId);
           navigate("/");
+          return 0;
         }
-        return preCount - 1;
+        return prevCount - 1;
       });
     }, 1000);
     return () => clearInterval(timeoutId);

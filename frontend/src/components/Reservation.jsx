@@ -19,46 +19,27 @@ const Reservation = () => {
 
   const handleReservation = async (e) => {
     e.preventDefault();
-    
+
+    // Basic validation
+    if (!firstName || !lastName || !email || !date || !time) {
+      toast.error("Please fill in all required fields.");
+      return;
+    }
+
     if (items.length === 0) {
       toast.error('Please add items to cart before placing order');
       return;
     }
-    
-    try {
-      const { data } = await axios.post(
-        "https://zestoraweb-1.onrender.com/api/v1/reservation/send",
-        { 
-          firstName, 
-          lastName, 
-          email, 
-          phone, 
-          date, 
-          time,
-          address,
-          orderItems: items,
-          totalAmount: getTotalPrice()
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
-      toast.success(data.message);
-      setFirstName("");
-      setLastName("");
-      setPhone("");
-      setEmail("");
-      setTime("");
-      setDate("");
-      setAddress("");
-      clearCart();
-      navigate("/success");
-    } catch (error) {
-      toast.error(error.response.data.message);
-    }
+
+    // Save form data to localStorage so we can retrieve it after redirect
+    localStorage.setItem("reservationData", JSON.stringify({
+      firstName, lastName, email, date, time, phone, address,
+      orderItems: items,
+      totalAmount: getTotalPrice()
+    }));
+
+    // Redirect to Backend Google Auth
+    window.location.href = "http://localhost:5000/api/v1/auth/google";
   };
 
   return (
@@ -71,7 +52,7 @@ const Reservation = () => {
           <div className="reservation_form_box">
             <h1>MAKE A ORDER</h1>
             <p>For Further Questions, Please Call</p>
-            
+
 
             {items.length > 0 && (
               <div className="cart-summary">
